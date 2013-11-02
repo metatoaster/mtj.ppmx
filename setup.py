@@ -29,6 +29,7 @@ setup(name='mtj.ppmx',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
+          'mtj.jibber',
       ],
       entry_points="""
       # -*- Entry points: -*-

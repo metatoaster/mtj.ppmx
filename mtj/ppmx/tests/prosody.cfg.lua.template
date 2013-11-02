@@ -1,0 +1,23 @@
+daemonize = false
+pidfile = "%(pidfile)s"
+admins = { "admin@localhost" }
+log = {}
+modules_enabled = {
+    "roster"; -- Allow users to have a roster. Recommended ;)
+    "saslauth"; -- Authentication for clients and servers. Recommended if you want to log in.
+    "disco"; -- Service discovery
+-- Nice to have
+    "version"; -- Replies to server version requests
+    "uptime"; -- Report how long server has been running
+    "time"; -- Let others know the time here on this server
+    "ping"; -- Replies to XMPP pings with pongs
+    "pep"; -- Enables users to publish their mood, activity, playing music and more
+    "register"; -- Allow users to register on this server using a client and change passwords
+-- Admin interfaces
+    "admin_adhoc";
+};
+allow_registration = false;
+authentication = "internal_plain"
+storage = "sql"
+sql = { driver = "SQLite3", database = "%(sqlite3)s" }
+VirtualHost "localhost"
