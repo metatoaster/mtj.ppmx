@@ -7,7 +7,7 @@ import subprocess
 import tempfile
 import sqlite3
 
-from mtj.jibber.core import BotCore
+from sleekxmpp import ClientXMPP
 
 
 def filepath(name):
@@ -56,17 +56,25 @@ class ProsodyLiveTestCase(TestCase):
         self.p = subprocess.Popen(['prosody', '--config', self.cfgfile])
         sleep(0.1)  # to allow the server to start
 
-    def mkBot(self):
-        self.bot = BotCore()
-        self.bot.jid = 'admin@localhost'
-        self.bot.password = 'password'
-        self.bot.host = 'localhost'
-        self.bot.connect()
-        return self.bot
+    def make_client(self):
+        jid = 'admin@localhost'
+        password = 'password'
+        client = ClientXMPP(jid, password)
+
+        [client.register_plugin(plugin) for plugin in [
+            'xep_0030',  # Service discovery
+            'xep_0199',  # XMPP Ping
+            'xep_0133',  # Adhoc admin
+        ]]
+
+        client.connect(address=('localhost', 5222))
+        client.process(block=False)
+        self.client = client
+        return client
 
     def tearDown(self):
         try:
-            self.bot.disconnect()
+            self.client.disconnect()
         except:
             # no bot, who cares.
             pass

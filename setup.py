@@ -29,7 +29,7 @@ setup(name='mtj.ppmx',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
-          'mtj.jibber',
+          'sleekxmpp',
       ],
       entry_points="""
       # -*- Entry points: -*-

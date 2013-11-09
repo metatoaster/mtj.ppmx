@@ -1,4 +1,4 @@
-def add_user(bot, accountjid, password, password_verify=None):
+def add_user(client, accountjid, password, password_verify=None):
     def handle_next(iq, session):
         session['form'] = iq['command']['form']
 
@@ -8,7 +8,7 @@ def add_user(bot, accountjid, password, password_verify=None):
 
     session = {'next': handle_next}  # XXX provide error handler method
 
-    bot.client.plugin['xep_0133'].add_user(session=session, block=True)
+    client.plugin['xep_0133'].add_user(session=session, block=True)
     # XXX verify that a form exists.
 
     form = session['form']
@@ -16,7 +16,7 @@ def add_user(bot, accountjid, password, password_verify=None):
     form['fields']['password']['value'] = password
     form['fields']['password-verify']['value'] = password_verify
     session['payload'] = form
-    bot.client.plugin['xep_0050'].continue_command(session=session)
+    client.plugin['xep_0050'].continue_command(session=session)
 
     # XXX return result code/msg
 

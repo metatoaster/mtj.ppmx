@@ -8,9 +8,8 @@ from .base import ProsodyLiveTestCase
 class AddUserProsodyLiveTestCase(ProsodyLiveTestCase):
 
     def test_add_user(self):
-        bot = self.mkBot()
-        bot.client.register_plugin('xep_0133')
-        admin.add_user(bot, 'dummy@localhost', 'a_password')
+        client = self.make_client()
+        admin.add_user(client, 'dummy@localhost', 'a_password')
 
         conn = sqlite3.connect(self.sqlitefile)
         c = conn.cursor()
