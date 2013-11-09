@@ -2,6 +2,7 @@ daemonize = false
 pidfile = "%(pidfile)s"
 admins = { "admin@localhost" }
 log = {}
+c2s_ports = "%(port)d"
 modules_enabled = {
     "roster"; -- Allow users to have a roster. Recommended ;)
     "saslauth"; -- Authentication for clients and servers. Recommended if you want to log in.

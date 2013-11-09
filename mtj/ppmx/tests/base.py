@@ -1,6 +1,7 @@
 from unittest import TestCase, TestSuite
 
 from time import sleep
+import random
 import shutil
 from os.path import join, dirname
 import subprocess
@@ -36,6 +37,7 @@ class ProsodyLiveTestCase(TestCase):
 
     def setUp(self):
         self.tempdir = tempfile.mkdtemp()
+        self.port = random.randint(15200, 15300)
 
         self.cfgfile = join(self.tempdir, 'prosody.cfg.lua')
         self.pidfile = join(self.tempdir, 'prosody.pid')
@@ -48,6 +50,7 @@ class ProsodyLiveTestCase(TestCase):
         cfg = template % {
             'sqlite3': self.sqlitefile,
             'pidfile': self.pidfile,
+            'port': self.port,
         }
 
         with open(self.cfgfile, 'w') as f:
@@ -67,7 +70,7 @@ class ProsodyLiveTestCase(TestCase):
             'xep_0133',  # Adhoc admin
         ]]
 
-        client.connect(address=('localhost', 5222))
+        client.connect(address=('localhost', self.port))
         client.process(block=False)
         self.client = client
         return client
