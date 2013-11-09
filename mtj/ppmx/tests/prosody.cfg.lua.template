@@ -1,7 +1,10 @@
 daemonize = false
 pidfile = "%(pidfile)s"
 admins = { "admin@localhost" }
-log = {}
+log = {
+    debug = "%(prosody_logfile)s";
+}
+data_path = "%(prosody_datapath)s";
 c2s_ports = "%(port)d"
 modules_enabled = {
     "roster"; -- Allow users to have a roster. Recommended ;)

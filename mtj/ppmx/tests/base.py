@@ -4,6 +4,7 @@ from time import sleep
 import random
 import shutil
 from os.path import join, dirname
+from os import mkdir
 import subprocess
 import tempfile
 import sqlite3
@@ -39,9 +40,13 @@ class ProsodyLiveTestCase(TestCase):
         self.tempdir = tempfile.mkdtemp()
         self.port = random.randint(15200, 15300)
 
+        # deleting users require data_path in prosody???
+        self.localhost_path = mkdir(join(self.tempdir, 'localhost'))
+
         self.cfgfile = join(self.tempdir, 'prosody.cfg.lua')
         self.pidfile = join(self.tempdir, 'prosody.pid')
         self.sqlitefile = join(self.tempdir, 'prosody.sqlite')
+        self.prosody_logfile = join(self.tempdir, 'prosody.log')
         self.init_prosody_db(self.sqlitefile)
 
         with open(filepath('prosody.cfg.lua.template')) as f:
@@ -50,6 +55,8 @@ class ProsodyLiveTestCase(TestCase):
         cfg = template % {
             'sqlite3': self.sqlitefile,
             'pidfile': self.pidfile,
+            'prosody_logfile': self.prosody_logfile,
+            'prosody_datapath': self.tempdir,
             'port': self.port,
         }
 
